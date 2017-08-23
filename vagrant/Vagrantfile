@@ -1,0 +1,39 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+  config.vm.define "chef_server" do |chef|
+    chef.vm.box = "sbeliakou/centos-7.3-x86_64-minimal"
+    chef.vm.hostname = "chef-server"
+    chef.vm.network "forwarded_port", guest: 80, host: 8080
+    chef.vm.network "private_network", ip: "192.168.20.101"
+    chef.vm.network "public_network", bridge: "virbr0"
+    chef.vm.provider "virtualbox" do |vb|
+     vb.memory = "2048"
+     vb.name = "chef_server"
+    end
+    chef.vm.post_up_message = "chef server vm is loaded"
+    chef.vm.provision "file", source: "./chef-13.3.42-1.el7.x86_64.rpm", destination: "chef-13.3.42-1.el7.x86_64.rpm"
+    chef.vm.provision "file", source: "./chef-manage-2.5.4-1.el7.x86_64.rpm", destination: "chef-manage-2.5.4-1.el7.x86_64.rpm"
+ end
+  config.vm.define "chef_nede_one" do |chef|
+    chef.vm.box = "sbeliakou/centos-7.3-x86_64-minimal"
+    chef.vm.hostname = "chef-node-one"
+    chef.vm.network "private_network", ip: "192.168.20.102"
+    chef.vm.network "public_network", bridge: "virbr0"
+    chef.vm.provider "virtualbox" do |vb|
+     vb.memory = "1024"
+     vb.name = "chef_node_one"
+    end
+ end
+  config.vm.define "chef_node_two" do |chef|
+    chef.vm.box = "sbeliakou/centos-7.3-x86_64-minimal"
+    chef.vm.hostname = "chef-node-two"
+    chef.vm.network "private_network", ip: "192.168.20.103"
+    chef.vm.network "public_network", bridge: "virbr0"
+    chef.vm.provider "virtualbox" do |vb|
+     vb.memory = "1024"
+     vb.name = "chef_node_two"
+    end
+ end
+end
