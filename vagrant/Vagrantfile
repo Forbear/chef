@@ -17,6 +17,9 @@ Vagrant.configure(2) do |config|
     chef.vm.provision "file", source: "./chef-manage-2.5.4-1.el7.x86_64.rpm", destination: "chef-manage-2.5.4-1.el7.x86_64.rpm"
     chef.vm.provision "shell", inline: "rpm -Uvh chef-server-core-12.16.2-1.el7.x86_64.rpm"
     chef.vm.provision "shell", inline: "rpm -Uvh chef-manage-2.5.4-1.el7.x86_64.rpm"
+    chef.vm.provision "shell", inline: "chef-server-ctl reconfigure"
+    chef.vm.provision "shell", inline: "chef-server-ctl user-create admin admin admin ex@mp.le 'P@ssw0rd' --filename config.pem"
+    chef.vm.provision "shell", inline: "chef-server-ctl org-create ad 'mnt-chef' --association_user admin --filename mnt-chef-validator.pem"
  end
   config.vm.define "chef_nede_one" do |chef|
     chef.vm.box = "sbeliakou/centos-7.3-x86_64-minimal"
