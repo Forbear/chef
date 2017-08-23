@@ -13,8 +13,10 @@ Vagrant.configure(2) do |config|
      vb.name = "chef_server"
     end
     chef.vm.post_up_message = "chef server vm is loaded"
-    chef.vm.provision "file", source: "./chef-13.3.42-1.el7.x86_64.rpm", destination: "chef-13.3.42-1.el7.x86_64.rpm"
+    chef.vm.provision "file", source: "./chef-server-core-12.16.2-1.el7.x86_64.rpm", destination: "chef-server-core-12.16.2-1.el7.x86_64.rpm"
     chef.vm.provision "file", source: "./chef-manage-2.5.4-1.el7.x86_64.rpm", destination: "chef-manage-2.5.4-1.el7.x86_64.rpm"
+    chef.vm.provision "shell", inline: "rpm -Uvh chef-server-core-12.16.2-1.el7.x86_64.rpm"
+    chef.vm.provision "shell", inline: "rpm -Uvh chef-manage-2.5.4-1.el7.x86_64.rpm"
  end
   config.vm.define "chef_nede_one" do |chef|
     chef.vm.box = "sbeliakou/centos-7.3-x86_64-minimal"
