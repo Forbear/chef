@@ -21,7 +21,7 @@ Vagrant.configure(2) do |config|
     chef.vm.provision "shell", inline: "chef-server-ctl user-create admin admin admin ex@mp.le 'P@ssw0rd' --filename config.pem"
     chef.vm.provision "shell", inline: "chef-server-ctl org-create ad 'mnt-chef' --association_user admin --filename mnt-chef-validator.pem"
  end
-  config.vm.define "chef_nede_one" do |chef|
+  config.vm.define "chef_node_one" do |chef|
     chef.vm.box = "sbeliakou/centos-7.3-x86_64-minimal"
     chef.vm.hostname = "chef-node-one"
     chef.vm.network "private_network", ip: "192.168.20.102"
@@ -30,6 +30,7 @@ Vagrant.configure(2) do |config|
      vb.memory = "1024"
      vb.name = "chef_node_one"
     end
+    chef.vm.provision "shell", inline: "echo '192.168.20.101 chef-server' >> /etc/hosts"
  end
   config.vm.define "chef_node_two" do |chef|
     chef.vm.box = "sbeliakou/centos-7.3-x86_64-minimal"
@@ -40,5 +41,6 @@ Vagrant.configure(2) do |config|
      vb.memory = "1024"
      vb.name = "chef_node_two"
     end
+    chef.vm.provision "shell", inline: "echo '192.168.20.101 chef-server' >> /etc/hosts"
  end
 end
