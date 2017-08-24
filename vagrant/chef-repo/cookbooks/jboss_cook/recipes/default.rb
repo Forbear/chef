@@ -6,3 +6,4 @@
 include_recipe "java"
 include_recipe "netstat"
 include_recipe "wildfly"
+include_recipe "my_custom_cb::deploy"
