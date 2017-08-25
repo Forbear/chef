@@ -13,3 +13,9 @@ end
 service 'nginx' do
   action [:enable, :start]
 end
+
+loadbalance "nginx" do
+  action :attach
+  roles ["apache_role", "jboss_role"]
+end
+
